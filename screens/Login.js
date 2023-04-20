@@ -8,7 +8,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import {Ionicons} from '@expo/vector-icons';
 
 WebBrowser.maybeCompleteAuthSession();
-export default function Login() {
+export default function Login({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
    const [signupEmail, setSignupEmail] = useState('');
@@ -24,6 +24,7 @@ export default function Login() {
     }else{
       await signInWithEmailAndPassword(auth, email, password);
       Alert.alert('Login was successful')
+      navigation.navigate("UploadScreen")
     }
   };
   

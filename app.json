@@ -10,7 +10,9 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "plugins": ["expo-image-picker"],
+      "plugins": [
+        "expo-image-picker"
+      ]
     },
     "assetBundlePatterns": [
       "**/*"
@@ -22,11 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.comon928.BizConnect"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7f19b38f-7dd1-462e-b576-33de61a19f7d"
+      }
     }
   }
-  
 }
