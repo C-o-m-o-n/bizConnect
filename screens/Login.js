@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import {Alert, StyleSheet, KeyboardAvoidingView, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as WebBrowser from 'expo-web-browser';
+import { collection, addDoc } from "firebase/firestore"; 
 import {auth} from './/../config/firebase';
+import {db} from './/../config/firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {Ionicons} from '@expo/vector-icons';
 
@@ -15,6 +17,7 @@ export default function Login({navigation}) {
   const [signupPassword, setTignupPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   
+  
    //Login user
   const LogUserIn = async () => {
     if (!email) {
@@ -22,7 +25,9 @@ export default function Login({navigation}) {
     }if (!password) {
       Alert.alert('please enter password')
     }else{
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
+        //console.log(userCredential.user);
+      })
       Alert.alert('Login was successful')
       navigation.navigate("UploadScreen")
     }
@@ -40,16 +45,10 @@ export default function Login({navigation}) {
     else{
       createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log(user.uid);
-      Alert.alert("user added successfully")
-      // ...
-    })
-    .catch((error) => {
+        const user = userCredential.user;
+        Alert.alert("user added successfully")}).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
-      
     });
       
     }
@@ -67,6 +66,7 @@ export default function Login({navigation}) {
           value={email}
           onChangeText={text=> setEmail(text)}
           />
+           
         <TextInput
           style={styles.inputOutline}
           placeholder="Password"
@@ -96,7 +96,9 @@ export default function Login({navigation}) {
         </TouchableOpacity>
       </View>
       <Text style={{ fontWeight:'bold',}}>or</Text>
-          <TouchableOpacity  style={styles.googleContainer}>
+         <TouchableOpacity
+            style={styles.googleContainer}
+            onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}>
               <Ionicons
                 name="logo-google"
                 size={32}
@@ -104,6 +106,7 @@ export default function Login({navigation}) {
                 style={styles.activityIcon}/>
         <Text style={styles.googleButtonText}>Sign in with Google</Text>
       </TouchableOpacity>
+        
     </KeyboardAvoidingView>
 
   );
