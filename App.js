@@ -16,35 +16,66 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        headerColor="#cb16f5"
-      >
+        screenOptions={{
+    tabBarStyle: { backgroundColor:'#9116f5' },
+  }}>
+  
         <Tab.Screen
-          options={{tabBarIcon: ({ tintColor }) => (
+          options={{
+            headerStyle: {
+            backgroundColor: '#cb16f5'
+            },
+            tabBarIcon: ({ tintColor }) => (
           <Ionicons
             name="ios-home"
             size={20}
-            color="#9116f5" />
+            color="#fff" />
         )}}
           name="Home"
           component={Home}
         />
         <Tab.Screen
+          options={{tabBarIcon: ({ tintColor }) => (
+          <Ionicons
+            name="ios-home"
+            size={20}
+            color="#fff" />
+        )}}
           name="UploadScreen"
-          component={ UploadScreen }
-        />
+          component={ UploadScreen }/>
         <Tab.Screen
+          options={{
+            Style:{
+              display:'none',
+            },
+            tabBarIcon: ({ tintColor }) => (
+          <Ionicons
+            name="log-in"
+            size={20}
+            color="#fff" />)
+            
+          }}
           name="Login"
-          component={Login}
-        />
+          component={ Login }/>
+
         <Tab.Screen
+          options={{tabBarIcon: ({ tintColor }) => (
+          <Ionicons
+            name="ios-home"
+            size={20}
+            color="#fff" />
+        )}}
           name="Feeds"
-          component={Feeds}
-        />
+          component={Feeds}/>
         <Tab.Screen
+          options={{tabBarIcon: ({ tintColor }) => (
+          <Ionicons
+            name="person"
+            size={20}
+            color="#fff" />
+        )}}
           name="Profile"
-          component={Profile}
-        />
-      
+          component={Profile}/>
       </Tab.Navigator>
     </NavigationContainer>
     

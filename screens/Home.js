@@ -6,6 +6,8 @@ import {
   Pressable,
   Alert,
   Modal,
+  ScrollView,
+  TextInput,
   Image,
   TouchableOpacity,
   Dimensions,
@@ -16,7 +18,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from './/Login'
 import UploadScreen from './/UploadScreen'
 import SplashScreen from './/SplashScreen'
-//import auth from './/../config/firebase';
+import DefaultUserPic from './/../assets/user.jpg';
+import homeBl from './/../assets/home-blog.png';
+import homePh from './/../assets/home-phone.png';
+import angel from './/../assets/analyses.png';
+
 import { getAuth } from "firebase/auth";
 import {db} from './/../config/firebase';
 import firebase from 'firebase/auth'
@@ -27,6 +33,7 @@ const HEIGHT_MODAL = Dimensions.get('window').height;
 const auth = getAuth()
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [search, setSearch] = useState('');
   
   const showUser = () =>{
     const auth = getAuth();
@@ -45,28 +52,64 @@ export default function Home({navigation}) {
     }else{
       console.log('no user');
     }
-    
   }
 
+  const ListAllUsers = (nextPageToken) => {
+  // List batch of users, 1000 at a time.
+    getAuth().listUsers(10, nextPageToken)
+    .then((listUsersResult) => {
+      listUsersResult.users.forEach((userRecord) => {
+        console.log('user', userRecord.toJSON());
+      });
+      if (listUsersResult.pageToken) {
+        // List next batch of users.
+        listAllUsers(listUsersResult.pageToken);
+      }
+    })
+    .catch((error) => {
+      console.log('Error listing users:', error);
+    });
+};
+// Start listing users from the beginning, 1000 at a time.
+//listAllUsers();
+
   return (
+     
     <LinearGradient
       style={styles.container}
       colors={['#cb16f5', 'transparent', '#9116f5']}
       start={{x:0, y:0}}
       end={{x:0.5, y:1}}>
-    <TouchableOpacity
-      onPress={()=>{
-        setModalVisible(!modalVisible);}}
-      style={styles.drawer}>
-       <Ionicons
-        name="grid"
-        color="#fff"
-        size={20}
-        style={styles.menuBar}>
-       </Ionicons>
-    </TouchableOpacity>
+      
+      <View style={styles.objectTop}>
+        <TouchableOpacity
+          onPress={()=>{
+            setModalVisible(!modalVisible);}}
+          style={styles.drawer}>
+           <Ionicons
+            name="grid"
+            color="#fff"
+            size={30}
+            style={styles.menuBar}>
+           </Ionicons>
+        </TouchableOpacity>
+        <TextInput
+          style={styles.searchInp}
+          placeholder="search"
+          value={search}
+          onChangeText={text=> setSearch(text)}
+          />
+          <TouchableOpacity>
+          <Ionicons
+            name="search"
+            color="#fff"
+            size={30}
+            style={styles.menuBar}/>
+          </TouchableOpacity>
+      </View>
     
     {/*drawer modal*/}
+    <ScrollView>
      <Modal
       animationType='slide'
       transparent={true}
@@ -75,22 +118,41 @@ export default function Home({navigation}) {
         Alert.alert("drawer closed");
         setModalVisible(!modalVisible);
       }}>
-      
-      
-      
+
         <View style={styles.modalContainer}>
           <View style={styles.modalTop}>
           <View style={ styles.profilePic} >
            {auth.currentUser ? ( <Pressable
               onPress={() =>
-               { navigation.navigate("Profile")
-              setModalVisible(!modalVisible)}}>
+               { if (auth.currentUser) {
+               navigation.navigate("Profile")
+               setModalVisible(!modalVisible)
+               }else{
+                 Alert.alert('please Login')
+               }
+                 }}>
                    <Image
                 style={{width:40, height:40, borderRadius:40,}}
                 source={{ uri: auth.currentUser.photoURL }} />
-            </Pressable>): null}
+            </Pressable>): 
+             <Image
+              style={{width:40, height:40, borderRadius:40,}}
+              source={DefaultUserPic}/>}
+              </View>
+              {/*bizConnect*/}
+              <View style={styles.bizConnect}>
+                 <Text style={styles.bizConnectText}>  bizConnect </Text>
               </View>
               
+              <View style={styles.closeModal}>
+                <Pressable
+                  onPress={() => setModalVisible(!modalVisible)}>
+                    <Ionicons
+                      name="moon"
+                      size={29}>
+                    </Ionicons>
+                </Pressable>
+              </View>
               <View style={styles.closeModal}>
                 <Pressable
                   onPress={() => setModalVisible(!modalVisible)}>
@@ -107,7 +169,7 @@ export default function Home({navigation}) {
       style={styles.link}
       onPress={()=>{
         navigation.navigate("Login")
-        setModalVisible(modalVisible);}
+        setModalVisible(modalVisible)}
       }>
          <Ionicons
         style={styles.linkText}
@@ -115,6 +177,8 @@ export default function Home({navigation}) {
        <Text > Login </Text>
       </Ionicons>
     </TouchableOpacity>
+    
+    
     <TouchableOpacity
       style={styles.link}
       onPress={()=>{
@@ -155,17 +219,98 @@ export default function Home({navigation}) {
       </View> 
     </View>
     </Modal>
-    
-    
-    {/*end of drawe modal*/}
-    
-    <View style={styles.user}>
-       <TouchableOpacity
-        onPress={showUser}
-       >
-       <Text> showUser </Text>
-       </TouchableOpacity>
-    </View>
+
+    {/*end of drawer modal*/}
+    <ListAllUsers/>
+    <View style={styles.users}>
+      <View style={styles.usersTop}>
+    <Image
+      style={{width:40, height:40, borderRadius:40,}}
+      source={DefaultUserPic}/>
+        <Text style={styles.userDet}> collo </Text>
+        <Text style={styles.userDet}> 12335 </Text>
+         <Ionicons
+        name="flower"
+        size={20}
+        style={styles.userDet}/>
+      </View>
+      <View style={{
+        backgroundColor:'#efefef',
+        height:1,}}></View>
+       <View style={styles.useExp}>
+       <Image
+        style={{width:320, height:170, margin:10,}}
+      source={angel}/>
+          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
+       </View>
+       </View>
+    <View style={styles.users}>
+      <View style={styles.usersTop}>
+    <Image
+      style={{width:40, height:40, borderRadius:40,}}
+      source={DefaultUserPic}/>
+        <Text style={styles.userDet}> collo </Text>
+        <Text style={styles.userDet}> 12335 </Text>
+         <Ionicons
+        name="flower"
+        size={20}
+        style={styles.userDet}/>
+      </View>
+      <View style={{
+        backgroundColor:'#efefef',
+        height:1,}}></View>
+       <View style={styles.useExp}>
+       <Image
+        style={{width:320, height:170, margin:10,}}
+      source={angel}/>
+          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
+       </View>
+       </View>
+    <View style={styles.users}>
+      <View style={styles.usersTop}>
+    <Image
+      style={{width:40, height:40, borderRadius:40,}}
+      source={DefaultUserPic}/>
+        <Text style={styles.userDet}> collo </Text>
+        <Text style={styles.userDet}> 12335 </Text>
+         <Ionicons
+        name="flower"
+        size={20}
+        style={styles.userDet}/>
+      </View>
+      <View style={{
+        backgroundColor:'#efefef',
+        height:1,}}></View>
+       <View style={styles.useExp}>
+       <Image
+        style={{width:320, height:170, margin:10,}}
+      source={angel}/>
+          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
+       </View>
+       </View>
+    <View style={styles.users}>
+      <View style={styles.usersTop}>
+    <Image
+      style={{width:40, height:40, borderRadius:40,}}
+      source={DefaultUserPic}/>
+        <Text style={styles.userDet}> collo </Text>
+        <Text style={styles.userDet}> 12335 </Text>
+         <Ionicons
+        name="flower"
+        size={20}
+        style={styles.userDet}/>
+      </View>
+      <View style={{
+        backgroundColor:'#efefef',
+        height:1,}}></View>
+       <View style={styles.useExp}>
+       <Image
+        style={{width:320, height:170, margin:10,}}
+      source={angel}/>
+          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
+       </View>
+       </View>
+    </ScrollView>  
     </LinearGradient>
   );
 }
@@ -175,6 +320,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
    
+  },
+  objectTop:{
+    flexDirection:'row',
+    
+  },
+  searchInp:{
+    padding:4,
+    backgroundColor:'#fff',
+    borderRadius:15,
+    width:WIDTH-100,
+    marginTop:5,
   },
   link:{
     marginTop:20,
@@ -191,12 +347,13 @@ const styles = StyleSheet.create({
     fontSize:16,
   },
   menuBar:{
-    marginTop:6,
-    marginHorizontal:5,
+    marginTop:10,
+    marginHorizontal:10,
   },
   modalContainer:{
+    marginTop:55,
     width:WIDTH-100,
-    height:HEIGHT_MODAL,
+    height:HEIGHT_MODAL-54,
     paddingTop: 10,
     backgroundColor:'#93899bf7',
     borderRadius:10,
@@ -209,12 +366,33 @@ const styles = StyleSheet.create({
   profilePic:{
     marginHorizontal:5,
   },
+  bizConnect:{
+    marginTop:10,
+  },
+  bizConnectText:{
+    color:'#fff',
+    fontWeight: 'bold',
+    fontSize:20,
+  },
   closeModal:{
     modalTop:1,
     alignSelf:'flex-end',
     marginHorizontal:5,
   },
-  user:{
-    alignSelf:'center'
-  }
+  users:{
+    width:WIDTH-20,
+    marginTop:10,
+    backgroundColor:'#fff',
+    alignSelf:'center',
+    borderRadius:10,
+  },
+  usersTop:{
+    justifyContent:'space-between',
+    flexDirection:'row',
+  },
+  userDet:{
+    marginHorizontal:10,
+    marginTop:20,
+  },
+  
 });

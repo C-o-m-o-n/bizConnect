@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import {launchImageLibraryAsync } from 'expo-image-picker'
 import { getAuth, updateProfile } from "firebase/auth";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import DefaultUserPic from './/../assets/user.jpg';
 
 const auth = getAuth()
 export default function Profile() {
@@ -58,8 +59,8 @@ export default function Profile() {
         Alert.alert("picture uploaded successfully!")})
   }
   const UpdateProfile = ()=>{
-    auth = getAuth()
-    user = auth.currentUser
+    auth_usr = getAuth()
+    user = auth_usr.currentUser
     if (user !== null) {
       updateProfile(user, {
         displayName: name,
@@ -83,42 +84,56 @@ export default function Profile() {
       end={{x:0.5, y:1}}>
      {/*from firebase*/}
      <View style={styles.profilecontainer}>
-      
         <View style={styles.profilePicContainer}>
             {auth.currentUser.photoURL ? ( <Image
                 style={styles.profilePicture}
-                source={{ uri: auth.currentUser.photoURL }} />): null }
+                source={{ uri: auth.currentUser.photoURL }} />): 
+                <Image
+              style={styles.profilePicture}
+              source={DefaultUserPic}/>
+              }
            <Text style={{marginHorizontal:20,fontWeight:'500',}}>
-           {auth.currentUser.displayName}
+           
            </Text>
-        </View>
-        <View style={styles.activity}>
-        <Ionicons
-          name="analytics"
-          size={42}
-          color="teal"
-          style={styles.activityIcon}/>
-           <Text style={styles.activityTxt}>donated</Text>
-           <Text style={styles.activityNum}>65</Text>
-        </View>
-        <View style={styles.activity}>
-       <Ionicons
-          name="sync"
-          size={42} color="teal"
-          style={styles.activityIcon}/>
-           <Text style={styles.activityTxt}>recycled</Text>
-           <Text style={styles.activityNum}>45</Text>
-        </View>
-        <View style={styles.activity}>
+      </View>
+      <View style={styles.details}>
+        <Text style={styles.detailsEmail}>{auth.currentUser.email}</Text>
+        <Text style={styles.detailsName}>{auth.currentUser.displayName}</Text>
+        <View style={styles.detailsIcons}>
            <Ionicons
-            name="cash-outline"
-            size={42}
-            color="teal"
-            style={styles.activityIcon}/>
-           <Text style={styles.activityTxt}>Sold</Text>
-           <Text style={styles.activityNum}>98</Text>
+           style={styles.detailsIcon}
+            name="star"
+            size={23}
+           />
+           <Ionicons
+            style={styles.detailsIcon}
+            name="star"
+            size={23}
+           />
+           <Ionicons
+            style={styles.detailsIcon}
+            name="star-half-outline"
+            size={23}
+           />
+           <Ionicons
+            style={styles.detailsIcon}
+            name="star-outline"
+            size={23}
+           />
+           <Ionicons
+            style={styles.detailsIcon}
+            name="star-outline"
+            size={23}
+           />
+        </View>
+        </View>
+        
+      <View style={styles.details}>
+        <Text style={styles.detailsEmail}>test</Text>
+        <Text style={styles.detailsName}>hey</Text>
         </View>
       </View>
+
          <View style={{margin:8,}}>
       </View>
      {/*from firebase end */}
@@ -135,8 +150,7 @@ export default function Profile() {
          <Text>Collins Omondi</Text>
       <TextInput placeholder="Enter new Name" value={name} onChangeText={(text) => setName(text)} />
       <TouchableOpacity
-        onPress={UpdateProfile}
-      >
+        onPress={UpdateProfile}>
         <Text> update Profile </Text>
       </TouchableOpacity>
       
@@ -162,44 +176,59 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   ProfilePic:{
-    width: 100,
-    height: 100,
+    width: 70,
+    height: 70,
     borderRadius:50,
     marginHorizontal:30,
   },
   profilecontainer:{
     flexDirection:'row',
+    marginTop:3,
+    backgroundColor:'#efefef',
+    borderRadius:10,
+    flexDirection:'row',
     justifyContent: 'center',
     marginHorizontal:5,
   },
   profilePicture:{
-    alignItems:'center',
-    margin:5,
-    width:100,
-    height:100,
+    marginHorizontal:5,
+    marginTop:10,
+    width:70,
+    height:70,
     borderRadius:50,
   },
-  activity:{
-    margin:3,
+  details:{
     border:2,
-    paddingTop:16,
-    marginTop:16,
+    paddingTop:6,
+    margin:5,
     paddingHorizontal:5,
-    backgroundColor:'#efefef',
+    backgroundColor:'#fff',
     borderRadius:10,
+    
   },
   activityIcon:{
     marginHorizontal:5,
   },
-  activityTxt:{
-    marginHorizontal:4,
+  detailsEmail:{
+    marginTop:5,
+    alignSelf:'center',
     fontSize:15,
     fontWeight:'500',
   },
-  activityNum:{
+  detailsName:{
+    alignSelf:'center',
     marginHorizontal:17,
     fontSize:20,
     fontWeight:'500',
+  },
+  detailsIcons:{
+    alignSelf:'center',
+    flexDirection:'row',
+    marginHorizontal:5,
+  },
+  detailsIcon:{
+    color:'#718f00a7',
+    marginHorizontal:5,
   },
 });
 

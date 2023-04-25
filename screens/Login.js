@@ -7,6 +7,7 @@ import { collection, addDoc } from "firebase/firestore";
 import {auth} from './/../config/firebase';
 import {db} from './/../config/firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { LinearGradient } from 'expo-linear-gradient';
 import {Ionicons} from '@expo/vector-icons';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -55,10 +56,11 @@ export default function Login({navigation}) {
   };
   
   return (
-    <KeyboardAvoidingView
+     <LinearGradient
       style={styles.container}
-      behaviour="padding"
-      >
+      colors={['#cb16f5', 'transparent', '#9116f5']}
+      start={{x:0, y:0}}
+      end={{x:0.5, y:1}}>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.inputOutline}
@@ -107,7 +109,7 @@ export default function Login({navigation}) {
         <Text style={styles.googleButtonText}>Sign in with Google</Text>
       </TouchableOpacity>
         
-    </KeyboardAvoidingView>
+    </LinearGradient>
 
   );
 }
