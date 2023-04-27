@@ -19,6 +19,7 @@ import Login from './/Login'
 import UploadScreen from './/UploadScreen'
 import SplashScreen from './/SplashScreen'
 import DefaultUserPic from './/../assets/user.jpg';
+import BizconnectImg from './/../assets/Bizconnect-blue.png';
 import homeBl from './/../assets/home-blog.png';
 import homePh from './/../assets/home-phone.png';
 import angel from './/../assets/analyses.png';
@@ -182,9 +183,6 @@ export default function Home({navigation}) {
     </Modal>
 
     {/*end of drawer modal*/}
-    
-    
-    
     <View style={styles.userscreen}>
      <View style={styles.objectTop}>
         <TouchableOpacity
@@ -201,11 +199,15 @@ export default function Home({navigation}) {
       </View>
     
        <View style={styles.objectCenter}>
-          <Text style={{alignSelf:'center', fontWeight:'bold',
-            fontSize:40,
-            color:'#21180f'
-          }}>
-          BIZCONNECT </Text>
+        <Image
+        style={{
+          width:400,
+          height:300,
+          alignSelf:'center',
+          
+        }}
+        source={BizconnectImg}
+       />
        </View>
        
        
@@ -329,7 +331,7 @@ const styles = StyleSheet.create({
     
   },
   objectBottom:{
-    borderRadius:20,
+    borderTopLeftRadius:20,
     height:HEIGHT_MODAL-200,
     backgroundColor:'#0c0c0fdc'
   },

@@ -9,7 +9,7 @@ import {db} from './/../config/firebase';
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { LinearGradient } from 'expo-linear-gradient';
 import {Ionicons} from '@expo/vector-icons';
-import DefaultUserPic from './/../assets/user.jpg';
+import DefaultUserPic from './/../assets/login-pic.png';
 
 
 WebBrowser.maybeCompleteAuthSession();

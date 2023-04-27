@@ -4,10 +4,10 @@
     "slug": "BizConnect",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Bizconnect_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Bizconnect-blue.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
       "plugins": [
@@ -22,13 +22,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Bizconnect_icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.comon928.BizConnect"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Bizconnect_icon.png"
     },
     "extra": {
       "eas": {
