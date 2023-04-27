@@ -11,7 +11,7 @@ import {
 //import { storage } from './/../config/firebase';
 import { auth } from './/../config/firebase';
 import {launchImageLibraryAsync } from 'expo-image-picker'
-
+import { LinearGradient } from 'expo-linear-gradient';
 import { utils } from 'firebase/app';
 import storage from 'firebase/storage';
 
@@ -56,7 +56,11 @@ export default function UplpadScreen () {
   }
   
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
+      start={{x:0, y:0}}
+      end={{x:0.5, y:1}}>
       <Button title="Select Image" onPress={selectImage} />
       {showImage && <Image source={{ uri: showImage.uri }} style={{ width: 200, height: 200 }} />}
       <TextInput placeholder="Enter Image Name" value={imageName} onChangeText={(text) => setImageName(text)} />
@@ -67,7 +71,7 @@ export default function UplpadScreen () {
           <Text>{imageURL}</Text>
         </View>
       ) : null}
-    </View>
+    </LinearGradient>
   );
 };
 

@@ -18,3 +18,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app)
+
+//scorpion-safe-client-myself-traffic-pupil
+//outdoor-toy-era-pill-clinic-whale

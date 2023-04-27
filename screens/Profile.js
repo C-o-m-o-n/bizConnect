@@ -79,7 +79,7 @@ export default function Profile() {
   return (
     <LinearGradient
       style={styles.container}
-      colors={['#cb16f5', 'transparent', '#9116f5']}
+      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
       start={{x:0, y:0}}
       end={{x:0.5, y:1}}>
      {/*from firebase*/}

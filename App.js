@@ -11,72 +11,39 @@ import SplashScreen from './/screens/SplashScreen'
 import UploadScreen from './/screens/UploadScreen'
 import Login from './/screens/Login'
 
-const Tab = createBottomTabNavigator();
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Stack.Navigator
         screenOptions={{
-    tabBarStyle: { backgroundColor:'#9116f5' },
-  }}>
+          headerShown: false, }}>
   
-        <Tab.Screen
-          options={{
-            headerStyle: {
-            backgroundColor: '#cb16f5'
-            },
-            tabBarIcon: ({ tintColor }) => (
-          <Ionicons
-            name="ios-home"
-            size={20}
-            color="#fff" />
-        )}}
+        <Stack.Screen
+          
           name="Home"
           component={Home}
         />
-        <Tab.Screen
-          options={{tabBarIcon: ({ tintColor }) => (
-          <Ionicons
-            name="ios-home"
-            size={20}
-            color="#fff" />
-        )}}
+        <Stack.Screen
+          
           name="UploadScreen"
           component={ UploadScreen }/>
-        <Tab.Screen
-          options={{
-            Style:{
-              display:'none',
-            },
-            tabBarIcon: ({ tintColor }) => (
-          <Ionicons
-            name="log-in"
-            size={20}
-            color="#fff" />)
-            
-          }}
+        <Stack.Screen
+          
           name="Login"
           component={ Login }/>
 
-        <Tab.Screen
-          options={{tabBarIcon: ({ tintColor }) => (
-          <Ionicons
-            name="ios-home"
-            size={20}
-            color="#fff" />
-        )}}
+        <Stack.Screen
+          
           name="Feeds"
           component={Feeds}/>
-        <Tab.Screen
-          options={{tabBarIcon: ({ tintColor }) => (
-          <Ionicons
-            name="person"
-            size={20}
-            color="#fff" />
-        )}}
+        <Stack.Screen
           name="Profile"
           component={Profile}/>
-      </Tab.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
     
   );

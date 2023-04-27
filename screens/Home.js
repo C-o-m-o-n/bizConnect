@@ -54,62 +54,18 @@ export default function Home({navigation}) {
     }
   }
 
-  const ListAllUsers = (nextPageToken) => {
-  // List batch of users, 1000 at a time.
-    getAuth().listUsers(10, nextPageToken)
-    .then((listUsersResult) => {
-      listUsersResult.users.forEach((userRecord) => {
-        console.log('user', userRecord.toJSON());
-      });
-      if (listUsersResult.pageToken) {
-        // List next batch of users.
-        listAllUsers(listUsersResult.pageToken);
-      }
-    })
-    .catch((error) => {
-      console.log('Error listing users:', error);
-    });
-};
-// Start listing users from the beginning, 1000 at a time.
-//listAllUsers();
-
+  
   return (
      
     <LinearGradient
       style={styles.container}
-      colors={['#cb16f5', 'transparent', '#9116f5']}
+      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
       start={{x:0, y:0}}
       end={{x:0.5, y:1}}>
       
-      <View style={styles.objectTop}>
-        <TouchableOpacity
-          onPress={()=>{
-            setModalVisible(!modalVisible);}}
-          style={styles.drawer}>
-           <Ionicons
-            name="grid"
-            color="#fff"
-            size={30}
-            style={styles.menuBar}>
-           </Ionicons>
-        </TouchableOpacity>
-        <TextInput
-          style={styles.searchInp}
-          placeholder="search"
-          value={search}
-          onChangeText={text=> setSearch(text)}
-          />
-          <TouchableOpacity>
-          <Ionicons
-            name="search"
-            color="#fff"
-            size={30}
-            style={styles.menuBar}/>
-          </TouchableOpacity>
-      </View>
-    
+
     {/*drawer modal*/}
-    <ScrollView>
+    <View>
      <Modal
       animationType='slide'
       transparent={true}
@@ -132,32 +88,37 @@ export default function Home({navigation}) {
                }
                  }}>
                    <Image
-                style={{width:40, height:40, borderRadius:40,}}
+                style={{width:30, height:30, borderRadius:30,}}
                 source={{ uri: auth.currentUser.photoURL }} />
             </Pressable>): 
              <Image
-              style={{width:40, height:40, borderRadius:40,}}
+              style={{width:30, height:30, borderRadius:30,}}
               source={DefaultUserPic}/>}
               </View>
               {/*bizConnect*/}
               <View style={styles.bizConnect}>
-                 <Text style={styles.bizConnectText}>  bizConnect </Text>
+                  <TextInput
+          style={styles.searchInp}
+          placeholder="search"
+          value={search}
+          onChangeText={text=> setSearch(text)}
+          />
+          <TouchableOpacity
+            style={styles.searchIcon}
+          >
+          <Ionicons
+            name="search"
+            color="#fff"
+            size={20}/>
+          </TouchableOpacity>
               </View>
               
               <View style={styles.closeModal}>
                 <Pressable
                   onPress={() => setModalVisible(!modalVisible)}>
                     <Ionicons
-                      name="moon"
-                      size={29}>
-                    </Ionicons>
-                </Pressable>
-              </View>
-              <View style={styles.closeModal}>
-                <Pressable
-                  onPress={() => setModalVisible(!modalVisible)}>
-                    <Ionicons
                       name="close"
+                      color="#fff"
                       size={29}>
                     </Ionicons>
                 </Pressable>
@@ -221,96 +182,71 @@ export default function Home({navigation}) {
     </Modal>
 
     {/*end of drawer modal*/}
-    <ListAllUsers/>
-    <View style={styles.users}>
-      <View style={styles.usersTop}>
-    <Image
-      style={{width:40, height:40, borderRadius:40,}}
-      source={DefaultUserPic}/>
-        <Text style={styles.userDet}> collo </Text>
-        <Text style={styles.userDet}> 12335 </Text>
-         <Ionicons
-        name="flower"
-        size={20}
-        style={styles.userDet}/>
+    
+    
+    
+    <View style={styles.userscreen}>
+     <View style={styles.objectTop}>
+        <TouchableOpacity
+          onPress={()=>{
+            setModalVisible(!modalVisible);}}
+          style={styles.drawer}>
+           <Ionicons
+            name="grid-outline"
+            color="#21180f"
+            size={23}
+            style={styles.menuBar}>
+           </Ionicons>
+        </TouchableOpacity>
       </View>
-      <View style={{
-        backgroundColor:'#efefef',
-        height:1,}}></View>
-       <View style={styles.useExp}>
-       <Image
-        style={{width:320, height:170, margin:10,}}
-      source={angel}/>
-          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
+    
+       <View style={styles.objectCenter}>
+          <Text style={{alignSelf:'center', fontWeight:'bold',
+            fontSize:40,
+            color:'#21180f'
+          }}>
+          BIZCONNECT </Text>
        </View>
+       
+       
+       <View style={styles.objectBottom}>
+        <View style={styles.objectBottomTxt}>
+           <Text style={{color:'#fff', fontWeight:'bold', }}>Welcome</Text>
+          <Text style={{color:'#fff'}}>Get Started with your bizConnect</Text>
+        </View>
+          
+          <View style={styles.objectBottomBtns}>
+             <TouchableOpacity style={styles.objectBottomBtn}>
+              <Text style={{
+                  alignSelf:'center',
+                  marginTop:10,
+                  fontWeight:'300',
+                  fontSize:18,}}> Find a job </Text>
+             </TouchableOpacity >
+             <TouchableOpacity
+              onPress={()=>{
+                navigation.navigate("UploadScreen")}}
+              style={styles.objectBottomBtn}>
+              <Text style={{
+                  alignSelf:'center',
+                  marginTop:10,
+                  fontWeight:'300',
+                  fontSize:18,}}> Post a job </Text>
+             </TouchableOpacity>
+             <TouchableOpacity style={styles.objectBottomBtn}>
+              <Text
+                style={{
+                  alignSelf:'center',
+                  marginTop:10,
+                  fontWeight:'300',
+                  fontSize:18,}}>
+                  My Account </Text>
+             </TouchableOpacity>
+          </View>
        </View>
-    <View style={styles.users}>
-      <View style={styles.usersTop}>
-    <Image
-      style={{width:40, height:40, borderRadius:40,}}
-      source={DefaultUserPic}/>
-        <Text style={styles.userDet}> collo </Text>
-        <Text style={styles.userDet}> 12335 </Text>
-         <Ionicons
-        name="flower"
-        size={20}
-        style={styles.userDet}/>
-      </View>
-      <View style={{
-        backgroundColor:'#efefef',
-        height:1,}}></View>
-       <View style={styles.useExp}>
-       <Image
-        style={{width:320, height:170, margin:10,}}
-      source={angel}/>
-          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
-       </View>
-       </View>
-    <View style={styles.users}>
-      <View style={styles.usersTop}>
-    <Image
-      style={{width:40, height:40, borderRadius:40,}}
-      source={DefaultUserPic}/>
-        <Text style={styles.userDet}> collo </Text>
-        <Text style={styles.userDet}> 12335 </Text>
-         <Ionicons
-        name="flower"
-        size={20}
-        style={styles.userDet}/>
-      </View>
-      <View style={{
-        backgroundColor:'#efefef',
-        height:1,}}></View>
-       <View style={styles.useExp}>
-       <Image
-        style={{width:320, height:170, margin:10,}}
-      source={angel}/>
-          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
-       </View>
-       </View>
-    <View style={styles.users}>
-      <View style={styles.usersTop}>
-    <Image
-      style={{width:40, height:40, borderRadius:40,}}
-      source={DefaultUserPic}/>
-        <Text style={styles.userDet}> collo </Text>
-        <Text style={styles.userDet}> 12335 </Text>
-         <Ionicons
-        name="flower"
-        size={20}
-        style={styles.userDet}/>
-      </View>
-      <View style={{
-        backgroundColor:'#efefef',
-        height:1,}}></View>
-       <View style={styles.useExp}>
-       <Image
-        style={{width:320, height:170, margin:10,}}
-      source={angel}/>
-          <Text style={{margin:5}}>Adipisicing voluptate sint nostrud anim elit ex in et culpa qui. Excepteur officia Lorem nostrud duis sunt incididunt nisi.</Text>
-       </View>
-       </View>
-    </ScrollView>  
+    </View>
+           
+    </View>  
     </LinearGradient>
   );
 }
@@ -322,22 +258,26 @@ const styles = StyleSheet.create({
    
   },
   objectTop:{
+    marginTop:40,
     flexDirection:'row',
     
   },
   searchInp:{
-    padding:4,
     backgroundColor:'#fff',
-    borderRadius:15,
-    width:WIDTH-100,
-    marginTop:5,
+    borderRadius:10,
+    marginHorizontal:5,
+    width:WIDTH-130,
+  },
+  searchIcon:{
+    marginTop:3,
+    marginHorizontal:5,
   },
   link:{
     marginTop:20,
     marginHorizontal:5,
     padding:5,
     borderRadius:30,
-    backgroundColor:'#4113a2a7'
+    backgroundColor:'#ef8d0bdc'
   },
   linkText:{
     marginHorizontal:20,
@@ -348,51 +288,70 @@ const styles = StyleSheet.create({
   },
   menuBar:{
     marginTop:10,
-    marginHorizontal:10,
+    marginHorizontal:20,
   },
   modalContainer:{
-    marginTop:55,
-    width:WIDTH-100,
-    height:HEIGHT_MODAL-54,
-    paddingTop: 10,
-    backgroundColor:'#93899bf7',
-    borderRadius:10,
+    width:WIDTH,
+    height:HEIGHT_MODAL,
+    backgroundColor:'#13110f',
+    
   },
   modalTop:{
     flexDirection:'row',
     justifyContent:'space-between',
     marginHorizontal:1,
+    marginTop:30,
   },
   profilePic:{
-    marginHorizontal:5,
+    marginHorizontal:2,
+    marginTop:3,
+  
   },
   bizConnect:{
-    marginTop:10,
-  },
-  bizConnectText:{
-    color:'#fff',
-    fontWeight: 'bold',
-    fontSize:20,
+    flexDirection:'row',
+    marginTop:5,
   },
   closeModal:{
-    modalTop:1,
-    alignSelf:'flex-end',
+    marginTop:3,
     marginHorizontal:5,
   },
-  users:{
-    width:WIDTH-20,
-    marginTop:10,
-    backgroundColor:'#fff',
+  userscreen:{
+    width:WIDTH,
+    height:HEIGHT_MODAL,
+    
     alignSelf:'center',
     borderRadius:10,
   },
-  usersTop:{
-    justifyContent:'space-between',
-    flexDirection:'row',
+  objectCenter:{
+    height:HEIGHT_MODAL-400,
+    flexDirection:'column',
+    justifyContent:'center',
+    
   },
-  userDet:{
-    marginHorizontal:10,
-    marginTop:20,
+  objectBottom:{
+    borderRadius:20,
+    height:HEIGHT_MODAL-200,
+    backgroundColor:'#0c0c0fdc'
+  },
+  objectBottomTxt:{
+    marginTop:29,
+    flexDirection:'column',
+    alignItems:'center',
+  },
+  objectBottomBtns:{
+    marginTop:29,
+    flexDirection:'column',
+    alignItems:'center',
+  },
+  
+  objectBottomBtn:{
+    height:50,
+    width:WIDTH-59,
+    padding:5,
+    borderRadius:30,
+    marginTop:10,
+    backgroundColor:'#fff',
+    
   },
   
 });

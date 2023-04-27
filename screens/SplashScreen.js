@@ -8,8 +8,10 @@ import {
   Image,
 } from "react-native";
 
-import auth from ".//../config/firebase";
 
+import { getAuth }from "firebase/auth";
+
+const auth = getAuth();
 const SplashScreen = ({ navigation }) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
@@ -20,9 +22,7 @@ const SplashScreen = ({ navigation }) => {
       // Check if currentUser is set or not
       // If not then send for Authentication
       // else send to Home Screen
-      navigation.replace(
-        auth().currentUser ? "HomeScreen" : "Auth"
-      );
+      navigation.navigate( "Home" );
     }, 5000);
   }, []);
 
