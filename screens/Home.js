@@ -24,7 +24,7 @@ import homeBl from './/../assets/home-blog.png';
 import homePh from './/../assets/home-phone.png';
 import angel from './/../assets/analyses.png';
 
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import {db} from './/../config/firebase';
 import firebase from 'firebase/auth'
 
@@ -32,6 +32,7 @@ const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = Dimensions.get('window').height;
 
 const auth = getAuth()
+
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState('');
@@ -55,7 +56,19 @@ export default function Home({navigation}) {
     }
   }
 
-  
+  const Logout=()=>{
+    const user = auth.currentUser;
+    if (user !== null) {
+      signOut(auth).then(() => {
+      Alert.alert('Loggedout successfully')}
+      ).catch((error) => {
+  //Alert.alert('Not .... Loggedout successfully')
+    console.log(error);
+  })}else{
+      Alert.alert('You are not logged in!')
+    };
+
+  }
   return (
      
     <LinearGradient
@@ -85,16 +98,20 @@ export default function Home({navigation}) {
                navigation.navigate("Profile")
                setModalVisible(!modalVisible)
                }else{
-                 Alert.alert('please Login')
-               }
-                 }}>
-                   <Image
+                 Alert.alert('please Login first before you access this page')
+               }}}>
+                  {auth.currentUser.photoURL ? ( <Image
                 style={{width:30, height:30, borderRadius:30,}}
-                source={{ uri: auth.currentUser.photoURL }} />
-            </Pressable>): 
-             <Image
+                source={{ uri: auth.currentUser.photoURL }} />): <Image
               style={{width:30, height:30, borderRadius:30,}}
               source={DefaultUserPic}/>}
+            </Pressable>): 
+            <Pressable
+              onPress={() =>Alert.alert('please Login first before you access this page')}>
+             <Image
+              style={{width:30, height:30, borderRadius:30,}}
+              source={DefaultUserPic}/>
+              </Pressable>}
               </View>
               {/*bizConnect*/}
               <View style={styles.bizConnect}>
@@ -162,20 +179,21 @@ export default function Home({navigation}) {
       }>
       <Ionicons
         style={styles.linkText}
-        name="log-in">
+        name="log-in-outline">
        <Text > Login </Text>
       </Ionicons>
     </TouchableOpacity>
+        
     <TouchableOpacity
       style={styles.link}
       onPress={()=>{
-        navigation.navigate("UploadScreen")
+        Logout()
         setModalVisible(modalVisible);}
       }>
          <Ionicons
         style={styles.linkText}
-        name="cloud-upload">
-       <Text > Upload </Text>
+        name="log-out-outline">
+       <Text > Logout </Text>
       </Ionicons>
     </TouchableOpacity>
       </View> 
@@ -235,7 +253,10 @@ export default function Home({navigation}) {
                   fontWeight:'300',
                   fontSize:18,}}> Post a job </Text>
              </TouchableOpacity>
-             <TouchableOpacity style={styles.objectBottomBtn}>
+             <TouchableOpacity
+              onPress={()=>{
+                navigation.navigate("Profile")}}
+             style={styles.objectBottomBtn}>
               <Text
                 style={{
                   alignSelf:'center',

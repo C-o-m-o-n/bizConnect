@@ -18,6 +18,7 @@ import {launchImageLibraryAsync } from 'expo-image-picker'
 import { getAuth, updateProfile } from "firebase/auth";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DefaultUserPic from './/../assets/user.jpg';
+import bizConnect_icon from './/../assets/Bizconnect_icon.png';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT_MODAL = Dimensions.get('window').height;
@@ -49,6 +50,9 @@ export default function Profile({navigation}) {
   
   
   const uploadImage = (pic) => {
+    if (!pic) {
+     Alert.alert('please choose a picture') 
+    }else{
     setUploading(true)
     const data = new FormData();
     data.append('file', pic)
@@ -65,10 +69,12 @@ export default function Profile({navigation}) {
         console.log("name: ", name);
         Alert.alert("picture uploaded successfully!")})
   }
+  }
   const UpdateProfile = ()=>{
     auth_usr = getAuth()
     user = auth_usr.currentUser
     if (user !== null) {
+      if (name !== null) {
       updateProfile(user, {
         displayName: name,
         photoURL: imageURL }).then(() => {
@@ -77,6 +83,9 @@ export default function Profile({navigation}) {
       }).catch((error) => {
         Alert.alert("An error occurred")
       });
+      }else{
+        Alert.alert("name cannot be empty")
+      }
     }else{
       Alert.alert("please login first")
     }
@@ -119,49 +128,37 @@ export default function Profile({navigation}) {
       <View style={styles.profileText}>
         <View style={styles.profileTextContainer}>
            <View style={{marginTop:10,}}>
-              <Text style={{marginHorizontal:20,fontWeight:500,  color:'#fff', alignSelf:'center',}}> Name:
+              <Text style={{marginHorizontal:20,fontWeight:'bold',  color:'#21180f', alignSelf:'center',}}> Name:
            </Text>
-           <Text style={{fontWeight:400,alignSelf:'center',  color:'#fff',}}>{auth.currentUser.displayName}</Text>
+           <Text style={{fontWeight:200,alignSelf:'center',  color:'#21180f',}}>{auth.currentUser.displayName}</Text>
            </View>
            
           <View style={{marginTop:10,}}>
-              <Text style={{marginHorizontal:20,fontWeight:500,  color:'#fff', alignSelf:'center',}}> Email:
+              <Text style={{marginHorizontal:20,fontWeight:'bold',  color:'#21180f', alignSelf:'center',}}> Email:
            </Text>
-            <Text style={{fontWeight:400,alignSelf:'center', color:'#fff'}}>{auth.currentUser.email}</Text>
+            <Text style={{fontWeight:200,alignSelf:'center', color:'#21180f'}}>{auth.currentUser.email}</Text>
           </View>
             </View>
       </View>
         </View>
-        
         <View >
           <TouchableOpacity
           onPress={()=>{
             setModalVisible(!modalVisible);}}
           style={styles.updateBtn}>
            <Ionicons
-            name="grid-outline"
+            name="pencil-outline"
             color="#21180f"
             size={23}
             style={styles.menuBar}>
            </Ionicons>
            <Text > Update Profile</Text>
         </TouchableOpacity>
-          <TouchableOpacity
-          onPress={()=>{
-            setModalVisible(!modalVisible);}}
-          style={styles.updateBtn}>
-           <Ionicons
-            name="grid-outline"
-            color="#21180f"
-            size={23}
-            style={styles.menuBar}>
-           </Ionicons>
-           <Text > Update Profile</Text>
-        </TouchableOpacity>
+          
        </View>
        
        
-         <View style={{backgroundColor:'#21180f', borderTopLeftRadius:60,}}>
+         <View style={{backgroundColor:'#0c0c0fdc', borderTopLeftRadius:60,}}>
             <Text>  </Text>
             <Text>  </Text>
          </View>
@@ -186,7 +183,7 @@ export default function Profile({navigation}) {
                 <Pressable
                   onPress={() => setModalVisible(!modalVisible)}>
                     <Ionicons
-                      name="close"
+                      name="return-up-back"
                       color="#fff"
                       size={29}>
                     </Ionicons>
@@ -197,31 +194,47 @@ export default function Profile({navigation}) {
         
         </View>
      <View style={styles.modalItems}>
+      <View style={styles.profilePicContainer}>
+            {auth.currentUser.photoURL ? ( <Image
+                style={styles.profilePicture}
+                source={{ uri: auth.currentUser.photoURL }} />): 
+                <Image
+              style={styles.profilePicture}
+              source={DefaultUserPic}/>
+              }
+           
+      </View>
+      <TouchableOpacity
+        style={styles.buttons}
+       onPress={selectImage} >
+       <Text style={{alignSelf:'center', marginTop:10}}> choose new Image </Text>
+       </TouchableOpacity>
       {showImage &&
         <Image
           source={{ uri: showImage.uri }}
           style={styles.ProfilePic} 
         />}
-         
-      <TextInput placeholder="Enter new Name" value={name} onChangeText={(text) => setName(text)} />
       <TouchableOpacity
         style={styles.buttons}
-       onPress={selectImage} >
-       <Text> change Image </Text>
-       </TouchableOpacity>
-       
-       <TouchableOpacity
-        style={styles.buttons}
         onPress={()=>uploadImage(newImage)}>
-        <Text> upload Image </Text>
+        <Text style={{alignSelf:'center', marginTop:10}}> upload new Image </Text>
        </TouchableOpacity>
        
+        <TextInput
+        placeholder="    Enter new Name"
+        style={styles.buttons}
+        value={name}
+        onChangeText={(text) => setName(text)} />
+        
       <TouchableOpacity
         style={styles.buttons}
         onPress={UpdateProfile}>
-        <Text> update Profile </Text>
+        <Text style={{alignSelf:'center', marginTop:10}}> update Profile </Text>
       </TouchableOpacity>
-       
+       <Image
+          style={{width:110, height:110, alignSelf:'center', marginTop:20}}
+          source={bizConnect_icon}
+         />
        </View>
       </View>
 
@@ -229,10 +242,69 @@ export default function Profile({navigation}) {
     </Modal>
      <View style={styles.BottomContainer}>
        <View style={styles.BottomItems}>
-          <View style={styles.BottomItem}>
-             <Text> item 1 </Text>
+         <View style={styles.objectBottomTxt}>
+         <Image
+          style={{width:110, height:110}}
+          source={bizConnect_icon}
+         />
+           <Text style={{color:'#fff', fontWeight:'bold', }}>Welcome</Text>
+          <Text style={{color:'#fff'}}>Get Started with your bizConnect</Text>
+        </View>
+          <TouchableOpacity style={styles.BottomItem}>
+             <Text
+              style={{
+                  alignSelf:'center',
+                  marginTop:1,
+                  marginBottom:10,
+                  fontWeight:'300',
+                  fontSize:18,}}>
+             <Ionicons
+            name="share"
+            color="#21180f"
+            size={33}
+            >
+           </Ionicons> Share Profile </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.BottomItem}>
+             <Text
+             style={{
+                  alignSelf:'center',
+                  marginTop:1,
+                  marginBottom:10,
+                  fontWeight:'300',
+                  fontSize:18,}}>
+             <Ionicons
+            name="star"
+            color="#21180f"
+            size={33}
+            >
+           </Ionicons> Review  </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.BottomItem}>
+
+             <Text 
+              style={{
+                  alignSelf:'center',
+                  marginTop:1,
+                  marginBottom:10,
+                  fontWeight:'300',
+                  fontSize:18,}}>
+             <Ionicons
+            name="add"
+            color="#21180f"
+            size={33}
+            >
+           </Ionicons> Invite friends </Text>
+          </TouchableOpacity>
+          
+          <View>
+             <Text> hello </Text>
+             <Text> hello </Text>
+             <Text> hello </Text>
           </View>
        </View>
+         
+         
       
       </View> 
       <StatusBar style="auto" />
@@ -261,7 +333,6 @@ const styles = StyleSheet.create({
   xyx:{
     flexDirection:'column',
     alignSelf:'center',
-    backgroundColor:'#dfd',
     borderTopLeftRadius:20,
     borderTopRightRadius:20,
   },
@@ -291,7 +362,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius:20,
     width:WIDTH-200,
     height:HEIGHT_MODAL-600,
-    backgroundColor:'#ddd',
+    backgroundColor:'#dfd',
     marginBottom:10,
   },
   profileTextContainer:{
@@ -306,7 +377,7 @@ const styles = StyleSheet.create({
     marginHorizontal:100,
     marginBottom:10,
     borderRadius:30,
-    backgroundColor:'#ddd',
+    backgroundColor:'#dfd',
     padding:10,
     width:WIDTH-200,
   },
@@ -338,18 +409,43 @@ const styles = StyleSheet.create({
   },
   
   BottomContainer:{
-    backgroundColor:'#21180f',
+    backgroundColor:'#0c0c0fdc',
+  },
+  objectBottomTxt:{
+    marginTop:6,
+    flexDirection:'column',
+    alignItems:'center',
+  },
+  BottomItems:{
+    marginTop:1,
+    marginBottom:10,
+  },
+  BottomItem:{
+    alignSelf:'center',
+    marginTop:20,
+    padding:10,
+    backgroundColor:'#dfd',
+    width:WIDTH-50,
+    marginHorizontal:10,
+    borderRadius:20,
   },
   
   buttons:{
-    marginTop:5,
-    padding:10,
-    width:200,
-    backgroundColor:'#dff',
+    alignSelf:'center',
+    height:50,
+    width:WIDTH-159,
+    padding:5,
+    borderRadius:30,
+    marginTop:10,
+    backgroundColor:'#fff',
+    
   },
   ProfilePic:{
     width:70,
     height:70,
+    alignSelf:'center',
+    borderRadius:50,
+    marginTop:10,
   },
   modalTop:{
     flexDirection:'row',
@@ -357,7 +453,8 @@ const styles = StyleSheet.create({
     marginTop:30,
   },
   modalContainer:{
-    backgroundColor:'green',
+    backgroundColor:'#21180f',
+    height:HEIGHT_MODAL-10,
   },
 });
 

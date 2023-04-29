@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {Alert, StyleSheet, KeyboardAvoidingView, View, TextInput, Image, TouchableOpacity, Text } from 'react-native';
+import {Alert, StyleSheet, KeyboardAvoidingView, View, TextInput, Image,ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import * as WebBrowser from 'expo-web-browser';
 import { collection, addDoc } from "firebase/firestore"; 
@@ -10,6 +10,7 @@ import { getAuth, signInWithEmailAndPassword, sendEmailVerification } from "fire
 import { LinearGradient } from 'expo-linear-gradient';
 import {Ionicons} from '@expo/vector-icons';
 import DefaultUserPic from './/../assets/login-pic.png';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -19,19 +20,35 @@ export default function Login({navigation}) {
    const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setTignupPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  
+  const [loading, setLoading] = useState(false);
   
    //Login user
   const LogUserIn = async () => {
+    
     if (!email) {
-      Alert.alert('please enter email')
+      showMessage({
+            message: "Email Error",
+            description: "you must have forgotten to enter your email. !!",
+            type: "error",
+          });
+      
     }if (!password) {
-      Alert.alert('please enter password')
+      showMessage({
+            message: "Password Error",
+            description: "you must have forgotten to enter your password. !!",
+            type: "error",
+          });
     }else{
+      setLoading(!loading)
       await signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
         //console.log(userCredential.user);
-        Alert.alert('Login was successful')
+        setLoading(loading)
       })
+      showMessage({
+        message: "success !!",
+        description: "Login was successful",
+        type: "success",
+          });
       navigation.navigate("Profile")
     }
   };
@@ -39,24 +56,59 @@ export default function Login({navigation}) {
   //CreateUser to firebase
   const CreateUser =() =>{
     if (!email && !password) {
-      Alert.alert('please enter email or password')
+      showMessage({
+            message: "Credentials Error",
+            description: "please enter email or password",
+            type: "error",
+          });
+      
     } else if (!email) {
-      Alert.alert('please enter email')
+      showMessage({
+            message: "Email Error",
+            description: "please enter email",
+            type: "error",
+          });
     }else if (!password) {
-      Alert.alert('please enter password')
+      showMessage({
+            message: "Password Error",
+            description: "please enter password",
+            type: "error",
+          });
     }
     else{
+      setLoading(!loading)
       createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         const user = userCredential.user;
-        
-        Alert.alert("user added successfully")}).catch((error) => {
+        setLoading(loading)
+        showMessage({
+            message: "success !!",
+            description: "user added successfully",
+            type: "success",
+          });
+        sendEmailVerification(user).then(() => {
+        showMessage({
+          message: "success !!",
+          description: "Email verification sent!",
+          type: "info",
+          });
+          
+        });
+        }).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
     });
       
     }
   };
+  
+  function Loader() {
+    return (
+    <View >
+      <ActivityIndicator size="large" color="#00ff00" />
+    </View>
+  );
+}
   
   return (
      <LinearGradient
@@ -65,11 +117,12 @@ export default function Login({navigation}) {
       start={{x:0, y:0}}
       end={{x:0.5, y:1}}>
       
-    
+
            <Image
         style={{width:'95%', height:230, borderRadius:10, marginBottom:20,}}
         source={ DefaultUserPic }
       />
+    {  loading && <Loader/> }
       <View style={styles.formContainer}>
       <View style={styles.inputContainer}>
         <TextInput
