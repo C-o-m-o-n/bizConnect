@@ -79,7 +79,7 @@ export default function Login({navigation}) {
       setLoading(!loading)
       createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        const user = userCredential.user;
+      const user = userCredential.user;
         setLoading(loading)
         showMessage({
             message: "success !!",
@@ -102,6 +102,8 @@ export default function Login({navigation}) {
     }
   };
   
+  
+
   function Loader() {
     return (
     <View >

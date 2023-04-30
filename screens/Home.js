@@ -14,6 +14,8 @@ import {
   View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { showMessage, hideMessage } from "react-native-flash-message";
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Login from './/Login'
 import UploadScreen from './/UploadScreen'
@@ -236,7 +238,11 @@ export default function Home({navigation}) {
         </View>
           
           <View style={styles.objectBottomBtns}>
-             <TouchableOpacity style={styles.objectBottomBtn}>
+             <TouchableOpacity
+              style={styles.objectBottomBtn}
+              onPress={()=>{
+                navigation.navigate('Jobs')
+              }}>
               <Text style={{
                   alignSelf:'center',
                   marginTop:10,
@@ -245,7 +251,16 @@ export default function Home({navigation}) {
              </TouchableOpacity >
              <TouchableOpacity
               onPress={()=>{
-                navigation.navigate("UploadScreen")}}
+                if (auth.currentUser===null) {
+                  showMessage({
+                    message: "Login Error",
+                    description: "Please Login first to access this page !!!",
+                    type: "error",
+                    });
+                }else{
+                  navigation.navigate("UploadScreen")}
+                }
+              }
               style={styles.objectBottomBtn}>
               <Text style={{
                   alignSelf:'center',
@@ -255,7 +270,16 @@ export default function Home({navigation}) {
              </TouchableOpacity>
              <TouchableOpacity
               onPress={()=>{
-                navigation.navigate("Profile")}}
+                if (auth.currentUser===null) {
+                  showMessage({
+                    message: "Login Error",
+                    description: "Please Login first to access this page !!!",
+                    type: "error",
+                    });
+                }else{
+                  navigation.navigate("Profile")}
+                }
+              }
              style={styles.objectBottomBtn}>
               <Text
                 style={{
@@ -296,18 +320,19 @@ const styles = StyleSheet.create({
     marginHorizontal:5,
   },
   link:{
-    marginTop:20,
-    marginHorizontal:5,
+    alignSelf:'center',
+    height:50,
+    width:WIDTH-59,
     padding:5,
     borderRadius:30,
-    backgroundColor:'#ef8d0bdc'
+    marginTop:10,
+    backgroundColor:'#fff',
   },
   linkText:{
-    marginHorizontal:20,
+    alignSelf:'center',
     marginTop:10,
-    marginBottom:10,
-    color:'#fff',
-    fontSize:16,
+    fontWeight:'300',
+    fontSize:18,
   },
   menuBar:{
     marginTop:10,

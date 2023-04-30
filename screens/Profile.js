@@ -14,7 +14,7 @@ import {
   Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {launchImageLibraryAsync } from 'expo-image-picker'
+import {MediaTypeOptions, launchImageLibraryAsync } from 'expo-image-picker'
 import { getAuth, updateProfile } from "firebase/auth";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DefaultUserPic from './/../assets/user.jpg';
@@ -36,7 +36,12 @@ export default function Profile({navigation}) {
   //const [isLogedIn, setIsLogedIn] = useState();
   
   const selectImage = async () => {
-    const options = { mediaTypes: 'Images' };
+    const options = { 
+      mediaTypes: MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    };
     const img = await launchImageLibraryAsync(options);
     setImage(img.assets[0].uri);
     setShowImage(img);
@@ -298,9 +303,9 @@ export default function Profile({navigation}) {
           </TouchableOpacity>
           
           <View>
-             <Text> hello </Text>
-             <Text> hello </Text>
-             <Text> hello </Text>
+             <Text>  </Text>
+             <Text>  </Text>
+             <Text>  </Text>
           </View>
        </View>
          
