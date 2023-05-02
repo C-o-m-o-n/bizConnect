@@ -9,6 +9,7 @@ const HEIGHT_MODAL = Dimensions.get('window').height;
 
 const auth = getAuth()
 export default function Jobs({navigation}) {
+  
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
@@ -17,8 +18,7 @@ export default function Jobs({navigation}) {
       .then((data) => {
         //console.log(data);
         setJobs(data)
-        
-      });
+        });
   }, []);
 
   const renderJobItem = ({ item }) => (
@@ -39,11 +39,16 @@ export default function Jobs({navigation}) {
      </View>
         
        <View style={styles.jobDescriptionContainer}>
-          <Text style={styles.jobDescription}>{item.job_description}</Text>
+          <Text style={styles.jobDescription}>{item.job_description.slice(122, 199)+'  ..........'}</Text>
         
        </View>
      <View style={styles.posterBtn}>
         <TouchableOpacity
+          onPress={() => {navigation.navigate("JobProfile", { jobId: item.id })
+            //console.log(item.user_id);
+          }
+            
+          }
           style={{
             width:WIDTH-229,
             padding:10,
@@ -52,8 +57,7 @@ export default function Jobs({navigation}) {
             backgroundColor:'#efefef',
             flexDirection:'row',
             alignSelf:'flex-end',
-          }}
-        >
+          }}>
           <Text> view job profile</Text>
         <Ionicons
           name="arrow-forward"
@@ -74,7 +78,7 @@ export default function Jobs({navigation}) {
       <View style={styles.objsTop}>
               <View style={styles.closeModal}>
                 <Pressable
-                  onPress={() => navigation.navigate("Home")}>
+                  onPress={() => navigation.goBack()}>
                     <Ionicons
                       name="return-up-back"
                       color="#fff"
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
   objsTop:{
     flexDirection:'row',
     justifyContent:'space-between',
-    marginTop:10,
+    marginTop:20,
   },
   jobItem: {
     flexDirection: 'column',

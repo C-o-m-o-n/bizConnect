@@ -14,6 +14,7 @@ class JobData(db.Model):
     user_id = db.Column(db.String(255))
     name = db.Column(db.String(255))
     email = db.Column(db.String(255))
+    user_photo = db.Column(db.String(255))
     phone = db.Column(db.Integer )
     job_name = db.Column(db.String(255))
     job_photo = db.Column(db.String(255))
@@ -28,12 +29,13 @@ def post_job():
     name = request.form.get('name')
     job_name = request.form.get('job_name')
     email = request.form.get('email')
+    user_photo = request.form.get('user_photo')
     phone = request.form.get('phone')
     job_photo = request.form.get('jobPhoto')
     job_description = request.form.get('jobDescription')
     job_location = request.form.get('jobLocation')
     
-    new_data = JobData(user_id=user_id, name=name, email=email,phone=phone, job_name=job_name, job_photo=job_photo,job_description=job_description, job_location=job_location)
+    new_data = JobData(user_id=user_id, name=name, email=email,user_photo=user_photo,phone=phone, job_name=job_name, job_photo=job_photo,job_description=job_description, job_location=job_location)
     db.create_all()
     db.session.add(new_data)
     db.session.commit()
@@ -48,6 +50,7 @@ def post_job():
             'id': job.id,
             'name': job.name,
             'email': job.email,
+            'user_photo': job.user_photo,
             'user_id': job.user_id,
             'phone': job.phone,
             'job_title': job.job_name,
@@ -63,5 +66,26 @@ def post_job():
     return response
     return 'Job details saved successfully'
 
+
+@app.route('/jobs/<int:id>', methods=['GET'])
+def get_job(id):
+    job = JobData.query.filter_by(id=id).first()
+    serialized_job = {
+            'id': job.id,
+            'name': job.name,
+            'email': job.email,
+            'user_photo': job.user_photo,
+            'user_id': job.user_id,
+            'phone': job.phone,
+            'job_title': job.job_name,
+            'job_description': job.job_description,
+            'job_location': job.job_location,
+            'job_photo': job.job_photo,
+    }
+    response = jsonify(serialized_job)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+    
+        
 if __name__ == '__main__':
     app.run(debug=True)

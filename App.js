@@ -12,6 +12,8 @@ import SplashScreen from './/screens/SplashScreen'
 import UploadScreen from './/screens/UploadScreen'
 import Login from './/screens/Login'
 import Jobs from './/screens/Jobs'
+import JobProfile from './/screens/Jobprofile'
+import Chat from './/screens/Chat'
 
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -45,6 +47,14 @@ export default function App() {
         <Stack.Screen
           name="Jobs"
           component={Jobs}/>
+        <Stack.Screen
+          name="JobProfile"
+          component={JobProfile}/>
+          
+        <Stack.Screen
+          name="Chat"
+          component={Chat}/>
+          
         <Stack.Screen
           name="Profile"
           component={Profile}/>

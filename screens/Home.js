@@ -39,25 +39,6 @@ export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState('');
   
-  const showUser = () =>{
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user !== null) {
-      const displayName = user.displayName;
-      const email = user.email;
-      const photoURL = user.photoURL;
-      const emailVerified = user.emailVerified;
-      const uid = user.uid;
-      console.log("uid:", uid);
-      console.log("photoURL:", photoURL);
-      console.log("email: ", email);
-      console.log("displayName: ", displayName);
-      console.log(auth.currentUser.photoURL);
-    }else{
-      console.log('no user');
-    }
-  }
-
   const Logout=()=>{
     const user = auth.currentUser;
     if (user !== null) {
@@ -83,7 +64,7 @@ export default function Home({navigation}) {
     {/*drawer modal*/}
     <View>
      <Modal
-      animationType='slide'
+      animationType='fade'
       transparent={true}
       visible={modalVisible}
       onRequestClose={()=>{

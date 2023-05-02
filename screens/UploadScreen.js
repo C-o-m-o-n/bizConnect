@@ -95,6 +95,7 @@ export default function UplpadScreen ({navigation}) {
     formData.append('name', auth.currentUser.displayName);
     formData.append('job_name', name);
     formData.append('email', auth.currentUser.email);
+    formData.append('user_photo', auth.currentUser.photoURL);
     formData.append('phone', phone);
     formData.append('jobPhoto', imageURL);
     formData.append('jobDescription', jobDescription);

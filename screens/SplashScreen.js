@@ -59,8 +59,7 @@ const SplashScreen = ({ navigation }) => {
           fontSize: 16,
           textAlign: "center",
           color: "white",
-        }}
-      >
+        }}>
       
       </Text>
     </SafeAreaView>
