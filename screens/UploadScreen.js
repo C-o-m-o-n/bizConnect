@@ -32,15 +32,12 @@ export default function UplpadScreen ({navigation}) {
   const [uploading, setUploading] = useState();
   const [imageName, setImageName] = useState('');
   const [imageURL, setImageURL] = useState('');
-  
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [jobPhoto, setJobPhoto] = useState(null);
   const [jobDescription, setJobDescription] = useState('');
   const [jobLocation, setJobLocation] = useState('');
 
-  
-  
   const selectImage = async () => {
     if (name === null) {
       showMessage({
@@ -48,25 +45,24 @@ export default function UplpadScreen ({navigation}) {
             description: "please enter job name before uploading the image",
             type: "error",
           });
-          
     }else{
       const options = {
         mediaTypes: MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-        
       };
       const img = await launchImageLibraryAsync(options);
       setImage(img.assets[0].uri);
+
+      setShowImage(img); //the display Image
       
-      setShowImage(img);
       const newImage = ({
         uri: img.assets[0].uri,
         type:`test/${ img.assets[0].uri.indexOf(".")+3}`,
         name:`test.${ img.assets[0].uri.indexOf(".")+3}`,
       })
-      uploadImage(newImage)
+      uploadImage(newImage) //uploads the Image
     }
   };
   
@@ -101,7 +97,7 @@ export default function UplpadScreen ({navigation}) {
     formData.append('jobDescription', jobDescription);
     formData.append('jobLocation', jobLocation);
 
-    fetch('http://127.0.0.1:5000/jobs', {
+    fetch('https://flask-production-356c.up.railway.app/jobs', {
       method: 'POST',
       body: formData,
     }).then(response => {
@@ -128,11 +124,9 @@ export default function UplpadScreen ({navigation}) {
   };
   
   return (
-    <LinearGradient
+    <View
       style={styles.container}
-      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
-      start={{x:0, y:0}}
-      end={{x:0.5, y:1}}>
+      >
       
       <View style={styles.objsTop}>
               <View style={styles.closeModal}>
@@ -252,14 +246,14 @@ export default function UplpadScreen ({navigation}) {
     </View>
       </ScrollView>
       
-    </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#DCD7EB',
   },
   objsTop:{
     flexDirection:'row',

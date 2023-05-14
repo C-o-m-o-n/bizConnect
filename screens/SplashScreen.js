@@ -19,10 +19,13 @@ const SplashScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      // Check if currentUser is set or not
-      // If not then send for Authentication
-      // else send to Home Screen
-      navigation.navigate( "Home" );
+      const user = auth.currentUser;
+      if (user !== null) {
+        navigation.navigate( "Home" );
+        console.log(user);
+      }else{
+        navigation.navigate( "Login" );
+      }
     }, 5000);
   }, []);
 
@@ -32,7 +35,7 @@ const SplashScreen = ({ navigation }) => {
     >
       <View style={styles.container}>
         <Image
-          source={require(".//../assets/Hands_holding_business_plan.jpg")}
+          source={require(".//../assets/Hands_holding_business_plan-removebg-preview.png")}
           style={{
             width: "90%",
             resizeMode: "contain",
@@ -52,7 +55,7 @@ const SplashScreen = ({ navigation }) => {
           textAlign: "center",
           color: "white",
         }}
-      >React Native Firebase Authentication
+      >welcome to bizConnect
       </Text>
       <Text
         style={{

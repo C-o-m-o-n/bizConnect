@@ -13,7 +13,7 @@ export default function Jobs({navigation}) {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/jobs')
+    fetch('https://flask-production-356c.up.railway.app/jobs')
       .then((response) => response.json())
       .then((data) => {
         //console.log(data);
@@ -44,37 +44,30 @@ export default function Jobs({navigation}) {
        </View>
      <View style={styles.posterBtn}>
         <TouchableOpacity
-          onPress={() => {navigation.navigate("JobProfile", { jobId: item.id })
-            //console.log(item.user_id);
-          }
-            
-          }
+          onPress={() => {navigation.navigate("JobProfile", { jobId: item.id })}
+            }
           style={{
             width:WIDTH-229,
             padding:10,
             borderRadius:30,
             marginTop:10,
-            backgroundColor:'#efefef',
+            backgroundColor:'#342352',
             flexDirection:'row',
             alignSelf:'flex-end',
           }}>
-          <Text> view job profile</Text>
+          <Text style={{color:"#f9f9f9"}}> view job profile</Text>
         <Ionicons
           name="arrow-forward"
-          color="#0c0c0fdc"
+          color="#f9f9f9"
           size={20}>
           </Ionicons>
         </TouchableOpacity>
      </View>
     </View>
   );
-
   return (
-    <LinearGradient
-      style={styles.container}
-      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
-      start={{x:0, y:0}}
-      end={{x:0.5, y:1}}>
+    <View
+      style={styles.container}>
       <View style={styles.objsTop}>
               <View style={styles.closeModal}>
                 <Pressable
@@ -95,7 +88,7 @@ export default function Jobs({navigation}) {
         renderItem={renderJobItem}
         keyExtractor={(item) => item.id.toString()}
       />
-    </LinearGradient>
+    </View>
   );
 }
 
@@ -103,6 +96,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor:'#DCD7EB',
   },
   objsTop:{
     flexDirection:'row',
@@ -112,8 +106,9 @@ const styles = StyleSheet.create({
   jobItem: {
     flexDirection: 'column',
     marginVertical: 10,
+    backgroundColor:'#f9f9f9',
     borderWidth: 1,
-    borderColor: '#0c0c0fdc',
+    borderColor: '#efefef',
     borderRadius: 10,
     padding: 10,
   },

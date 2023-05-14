@@ -12,6 +12,9 @@ import {Ionicons} from '@expo/vector-icons';
 import DefaultUserPic from './/../assets/login-pic.png';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
+// import GoogleSignIn from './/../components/Google_signin';
+
+
 
 WebBrowser.maybeCompleteAuthSession();
 export default function Login({navigation}) {
@@ -101,9 +104,7 @@ export default function Login({navigation}) {
       
     }
   };
-  
-  
-
+ 
   function Loader() {
     return (
     <View >
@@ -113,11 +114,8 @@ export default function Login({navigation}) {
 }
   
   return (
-     <LinearGradient
-      style={styles.container}
-      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
-      start={{x:0, y:0}}
-      end={{x:0.5, y:1}}>
+     <View
+      style={styles.container}>
       
 
            <Image
@@ -163,7 +161,7 @@ export default function Login({navigation}) {
          </Text>
         </TouchableOpacity>
       </View>
-      <Text style={{ fontWeight:'bold', color:'#fff', alignSelf:'center'}}>or</Text>
+     {/* <Text style={{ fontWeight:'bold', color:'#fff', alignSelf:'center'}}>or</Text>
          <TouchableOpacity
             style={styles.googleContainer}
             onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}>
@@ -173,9 +171,9 @@ export default function Login({navigation}) {
                 color="red"
                 style={styles.activityIcon}/>
         <Text style={styles.googleButtonText}>Sign in with Google</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
             </View>
-    </LinearGradient>
+    </View>
 
   );
 }
@@ -183,7 +181,7 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#efefef',
+    backgroundColor: '#DCD7EB',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
   },
   formContainer:{
     padding:15,
-    backgroundColor:'#21180f',
+    backgroundColor:'#342352',
     marginHorizontal:5,
     width:'95%',
     borderRadius:20,
@@ -210,7 +208,7 @@ const styles = StyleSheet.create({
   },
   
   button:{
-    backgroundColor:'#ef8d0bdc',
+    backgroundColor:'#DCD7EB',
     height:40,
     marginTop:20,
     marginHorizontal:10,
@@ -223,7 +221,6 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     fontWeight:'300',
     fontSize:15,
-    color:'#fff',
   },
   googleContainer: {
     elevation: 8,

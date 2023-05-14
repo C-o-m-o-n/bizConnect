@@ -15,7 +15,7 @@ export default function JobProfile({ route, navigation }) {
   const [job, setJob] = useState({});
   
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/jobs/${jobId}`)
+    fetch(`https://flask-production-356c.up.railway.app/jobs/${jobId}`)
       .then((response) => response.json())
       .then((data) => {
         setJob(data)
@@ -26,11 +26,7 @@ export default function JobProfile({ route, navigation }) {
 
 
   return (
-    <LinearGradient
-      style={{ flex: 1 }}
-      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
-      start={{x:0, y:0}}
-      end={{x:0.5, y:1}}>
+    <View style={styles.container}>
       <View style={styles.objsTop}>
         <Ionicons
           name="return-up-back"
@@ -55,8 +51,8 @@ export default function JobProfile({ route, navigation }) {
           />
           <View style={styles.JobProfileTopText}>
             
-            <Text style={{alignSelf:'center',color:'#1d2f2fd1', fontSize:18,}}> {job.name} </Text>
-            <Text style={{alignSelf:'center',color:'#1d2f2fd1', fontSize:18,}}> {job.email} </Text>
+            <Text style={{alignSelf:'center',color:'#342352', fontSize:18,}}> {job.name} </Text>
+            <Text style={{alignSelf:'center',color:'#342352', fontSize:18,}}> {job.email} </Text>
           </View>
       </View>
         <View style={styles.JobProfileBodyItems}>
@@ -64,14 +60,14 @@ export default function JobProfile({ route, navigation }) {
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 10, alignSelf:'center', color:'#999999',}}>{job.job_title}</Text>
        
         
-        <Text style={{alignSelf:'center',marginHorizontal:10, marginTop:10,color: '#9999',}}>{job.job_description}</Text>
+        <Text style={{alignSelf:'center',marginHorizontal:10, marginTop:10,color: '#000000',}}>{job.job_description}</Text>
 
         <Text style={{alignSelf:'center', color: '#888',}}>{job.job_location}</Text>
         <View style={styles.JobProfileBottom}>
           <TouchableOpacity
             style={styles.JobProfileBottomBtn}
           >
-             <Text> Save task </Text>
+             <Text style={{color:'#fff'}}> Save task </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={()=>{
@@ -88,20 +84,20 @@ export default function JobProfile({ route, navigation }) {
             }
             style={styles.JobProfileBottomBtn}
           >
-             <Text> Take task </Text>
+             <Text style={{color:'#fff'}}> Take task </Text>
           </TouchableOpacity>
         </View>
         </View>
       </View>
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    backgroundColor:'#91bbfa61',
   },
   objsTop:{
     flexDirection:'row',
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
     marginHorizontal:10,
   },
   JobProfileTop:{
-    backgroundColor:'#ebf5f5d1',
+    justifyContent:'center',
     position:'absolute',
     alignSelf:'center',
     marginTop:5,
@@ -118,9 +114,9 @@ const styles = StyleSheet.create({
     borderRadius:30,
   },
   user_photo:{
-    width:160,
-    height:160,
-    marginHorizontal:3,
+    width:150,
+    height:150,
+    marginHorizontal:1,
     borderRadius: 100,
   },
   JobProfileTopText:{
@@ -129,7 +125,7 @@ const styles = StyleSheet.create({
   JobProfileBodyItems:{
     
     marginTop:-20,
-    backgroundColor:'#13110f',
+    backgroundColor:'#fff',
     borderTopLeftRadius: 20,
   },
   JobProfileBottom:{
@@ -137,13 +133,12 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
   },
   JobProfileBottomBtn:{
-    
     width:WIDTH-259,
     padding:10,
     borderRadius:20,
     marginTop:10,
     marginBottom:30,
     marginHorizontal:20,
-    backgroundColor:'#fff',
+    backgroundColor:'#342352',
   },
 })

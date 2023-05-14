@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -10,6 +10,7 @@ import {
   TextInput,
   Pressable,
   Dimensions,
+  FlatList,
   Modal,
   Alert,
 } from 'react-native';
@@ -33,7 +34,20 @@ export default function Profile({navigation}) {
   const [imageName, setImageName] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [myJobs, setMyJobs] = useState('');
   //const [isLogedIn, setIsLogedIn] = useState();
+  
+  useEffect(() => {
+    fetch(`https://flask-production-356c.up.railway.app/my_jobs?user_id=${ auth.currentUser.uid }`,{
+      method:'GET'
+    }).then((response) => response.json()).then((data) => {
+        setMyJobs(data)
+        console.log(myJobs);
+        }).catch(error=>{
+          console.log("error", error);
+        });
+  }, []);
+
   
   const selectImage = async () => {
     const options = { 
@@ -52,7 +66,6 @@ export default function Profile({navigation}) {
     })
     setNewImage(newPic)
   };
-  
   
   const uploadImage = (pic) => {
     if (!pic) {
@@ -95,14 +108,21 @@ export default function Profile({navigation}) {
       Alert.alert("please login first")
     }
 }
-
-
+const renderItem = ({ item }) => (
+     <View style={styles.jobItemTopContainer}>
+         <Image source={{ uri: item.job_photo }} style={styles.jobPhoto} />
+      <View style={styles.jobDetails}>
+        <Text style={styles.jobPosterName}>{item.name}</Text>
+        <Text style={styles.jobLocation}>{item.phone}</Text>
+        <Text style={styles.jobTitle}>{item.job_title}</Text>
+        <Text style={styles.jobLocation}>{item.job_location}</Text>
+     </View>
+     </View>
+     )
   return (
-    <LinearGradient
+    <View
       style={styles.container}
-      colors={['#ef8d0bdc', 'transparent', '#ef8d0bdc']}
-      start={{x:0, y:0}}
-      end={{x:0.5, y:1}}>
+      >
      {/*from firebase*/}
      
      <View style={styles.TopContainer}>
@@ -162,13 +182,6 @@ export default function Profile({navigation}) {
           
        </View>
        
-       
-         <View style={{backgroundColor:'#0c0c0fdc', borderTopLeftRadius:60,}}>
-            <Text>  </Text>
-            <Text>  </Text>
-         </View>
-         
-         
        </View>
       
     
@@ -307,19 +320,34 @@ export default function Profile({navigation}) {
              <Text>  </Text>
              <Text>  </Text>
           </View>
+          
+          <View>
+            <FlatList
+              data={myJobs}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              
+      />
+          </View>
+          <View>
+             <Text>  </Text>
+             <Text>  </Text>
+             <Text>  </Text>
+          </View>
        </View>
          
          
       
       </View> 
       <StatusBar style="auto" />
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'#DCD7EB',
   },
   TopContainer:{
     flexDirection:'row',
@@ -387,11 +415,7 @@ const styles = StyleSheet.create({
     width:WIDTH-200,
   },
   
-  details:{
-    marginTop:0,
-    backgroundColor:'blue',
-    borderTopLeftRadius:20,
-  },
+  
   activityIcon:{
     marginHorizontal:5,
   },
@@ -414,7 +438,8 @@ const styles = StyleSheet.create({
   },
   
   BottomContainer:{
-    backgroundColor:'#0c0c0fdc',
+    backgroundColor:'#342352',
+    borderTopLeftRadius:40,
   },
   objectBottomTxt:{
     marginTop:6,
@@ -461,6 +486,9 @@ const styles = StyleSheet.create({
     backgroundColor:'#21180f',
     height:HEIGHT_MODAL-10,
   },
+  jobItemTopContainer:{
+    backgroundColor:'red',
+  }
 });
 
 
